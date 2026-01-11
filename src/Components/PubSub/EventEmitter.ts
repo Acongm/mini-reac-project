@@ -1,20 +1,25 @@
-import { SharedStateBridge, SharedDataMap } from '@/common/PubSubServiceRequest/SharedStateBridge';
+import { SharedStateBridge } from '@/common/PubSubServiceRequest/SharedStateBridge';
+import { SharedDataMapValue, SharedDataMapValueFnData } from './type';
 
-// 单例子类
-export class SharedStateBridgeSingleton extends SharedStateBridge<keyof SharedDataMap> {
-  private static instance: SharedStateBridgeSingleton;
+// 单例子类，支持动态类型
+export class SharedStateBridgeSingleton extends SharedStateBridge {
+  private static instances = new Map<string, SharedStateBridgeSingleton>();
 
   private constructor() {
     super();
   }
 
-  public static getInstance(): SharedStateBridgeSingleton {
-    if (!SharedStateBridgeSingleton.instance) {
-      SharedStateBridgeSingleton.instance = new SharedStateBridgeSingleton();
+  // 根据 key 动态获取实例，并支持泛型类型
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public static getInstance<V = any, T = any>(key: string): SharedStateBridge<V, T> {
+    if (!this.instances.has(key)) {
+      this.instances.set(key, new SharedStateBridgeSingleton());
     }
-    return this.instance;
+    return this.instances.get(key) as SharedStateBridge<V, T>;
   }
 }
 
-// 导出单例
-export const singleton = SharedStateBridgeSingleton.getInstance();
+// 动态获取两个不同类型的实例
+export const singleton = SharedStateBridgeSingleton.getInstance<SharedDataMapValue, SharedDataMapValueFnData>(
+  'singleton1',
+);
