@@ -1,31 +1,25 @@
 import { useState } from 'react';
 import './App.css';
-import Header from '@/Components/Header';
-import ReadTheDocs from '@/Components/ReadTheDocs';
-import PubSubDemo from '@/Components/PubSub';
-import { ControlledForm, UnControlledForm } from './Components/ControlledForm';
+// import Header from '@/Components/Header';
+// import ReadTheDocs from '@/Components/ReadTheDocs';
+import ComponentShowcase from '@/Components/ComponentShowcase';
 
 const App: React.FC = () => {
   const [count, setCount] = useState(0);
 
   return (
     <div className="App">
-      <Header />
+      {/* <Header /> */}
       <div className="card">
         <button type="button" onClick={() => setCount(count + 1)}>
           count is {count}
         </button>
       </div>
-      <ReadTheDocs />
+      {/* <ReadTheDocs /> */}
 
-      {/* 发布订阅模式演示 */}
+      {/* 组件展示库 */}
       <div style={{ marginTop: '40px' }}>
-        <ControlledForm />
-        <UnControlledForm />
-      </div>
-      {/* 发布订阅模式演示 */}
-      <div style={{ marginTop: '40px' }}>
-        <PubSubDemo />
+        <ComponentShowcase />
       </div>
     </div>
   );
